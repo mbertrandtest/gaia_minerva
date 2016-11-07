@@ -51,14 +51,10 @@ before_install:
     - git clone https://github.com/girder/girder.git
     - cd girder
     - git checkout `cat $TRAVIS_BUILD_DIR/.girder-version`
-    - pip install -r requirements.txt
-    - pip install -r requirements-dev.txt
     - cd plugins
     - git clone https://github.com/Kitware/minerva.git
-    - pip install -r minerva/requirements.txt
     - cd $HOME/build
-    - pip install -r mbertrandtest/gaia_minerva/requirements.txt
-    - mv mbertrandtest/gaia_minerva girder/plugins
+    - mv OpenDataAnalytics/gaia_minerva girder/plugins
     - cp girder/plugins/minerva/server/conf/minerva.dist.cfg girder/plugins/minerva/server/conf/minerva.local.cfg
 
 
@@ -102,9 +98,9 @@ install:
     # handle caching of npm modules
     - mkdir -p $HOME/.cache/node_modules || true
     - ln -sf $HOME/.cache/node_modules .
-    # - npm prune
+    - npm prune
     # build and install girder
-    # - npm install
+    - npm install
     # replace girder's ctest config with minerva's
     - cp "$GIRDER_SOURCE_DIR/plugins/gaia_minerva/cmake/CTestConfig.cmake" .
 
