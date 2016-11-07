@@ -54,7 +54,7 @@ before_install:
     - cd plugins
     - git clone https://github.com/Kitware/minerva.git
 
-    - cd girder
+    - cd $HOME/build/girder
     # copy the placeholder bsve credentials, needed even though we mock bsve api calls
     - cp plugins/minerva/server/jobs/bsve.json.in plugins/minerva/server/jobs/bsve.json
 
