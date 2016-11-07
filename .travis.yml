@@ -102,9 +102,9 @@ install:
     # handle caching of npm modules
     - mkdir -p $HOME/.cache/node_modules || true
     - ln -sf $HOME/.cache/node_modules .
-    - npm prune
+    # - npm prune
     # build and install girder
-    - npm install
+    # - npm install
     # replace girder's ctest config with minerva's
     - cp "$GIRDER_SOURCE_DIR/plugins/gaia_minerva/cmake/CTestConfig.cmake" .
 
