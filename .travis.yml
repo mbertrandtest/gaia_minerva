@@ -54,7 +54,7 @@ before_install:
     - cd plugins
     - git clone https://github.com/Kitware/minerva.git
     - cd $HOME/build
-    - mv OpenDataAnalytics/gaia_minerva girder/plugins
+    - mv mbertrandtest/gaia_minerva girder/plugins
     - cp girder/plugins/minerva/server/conf/minerva.dist.cfg girder/plugins/minerva/server/conf/minerva.local.cfg
 
 
