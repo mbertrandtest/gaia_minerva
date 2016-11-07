@@ -57,7 +57,7 @@ before_install:
     - cd $HOME/build/girder
     # copy the placeholder bsve credentials, needed even though we mock bsve api calls
     - cp plugins/minerva/server/jobs/bsve.json.in plugins/minerva/server/jobs/bsve.json
-
+    - cp plugins/minerva/server/conf/minerva.dist.cfg plugins/minerva/server/conf/minerva.local.cfg
 
     # Show the memory state; this lets us more quickly determine when the
     # travis environment is bad
@@ -94,7 +94,6 @@ install:
     - mkdir -p $HOME/.cache/node_modules || true
     - ln -sf $HOME/.cache/node_modules .
     - npm prune
-    - rm -rf /home/travis/.npm/3c60721c-is-npm-lodash-4-16-6-package-tgz.lock
     # build and install girder
     - npm install
     # install gaia_minerva
