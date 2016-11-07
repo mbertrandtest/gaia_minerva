@@ -99,6 +99,7 @@ install:
     - mkdir -p $HOME/.cache/node_modules || true
     - ln -sf $HOME/.cache/node_modules .
     - npm prune
+    - rm -rf /home/travis/.npm/3c60721c-is-npm-lodash-4-16-6-package-tgz.lock
     # build and install girder
     - npm install
     # replace girder's ctest config with minerva's
