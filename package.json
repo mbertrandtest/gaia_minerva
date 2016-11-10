@@ -1,15 +1,15 @@
 {
   "name": "gaia_minerva",
   "version": "0.1.0",
-  "description": "A plugin for running Gaia processes within minerva",
+  "description": "An application for geospatial analytics.",
   "license": "Apache-2.0",
-  "repository": "https://github.com/opendataanalytics/gaia_minerva.git",
+  "repository": "https://github.com/OpenDataAnalytics/gaia_minerva.git",
   "dependencies": {
     "JSONPath": "0.10.0",
     "bootstrap-select": "^1.10.0",
     "bootstrap-slider": "^7.1.0",
     "colorbrewer": "1.0.0",
-    "geojs": "0.10.1",
+    "geojs": "0.10.3",
     "jade": "~1.11.0",
     "jquery-ui-bundle": "^1.11.4",
     "underscore": "~1.5"
