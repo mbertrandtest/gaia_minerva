@@ -3,8 +3,8 @@ python:
     - "2.7"
 
 env:
-  - GAIA_MINERVA_TEST_GROUP=server
-  - GAIA_MINERVA_TEST_GROUP=client
+  - MINERVA_TEST_GROUP=server
+  - MINERVA_TEST_GROUP=client
 
 cache:
   directories:
@@ -20,44 +20,36 @@ addons:
   apt:
     packages:
     - libpng12-dev
+    - libgdal1-dev
     - pkg-config
     - libnetcdf-dev
-    - postgresql-9.4-postgis-2.2
-    - python-dev
-    - libgdal1-dev
-    - libblas-dev
-    - liblapack-dev
-    - libatlas-base-dev
-    - gfortran
 
 before_install:
     # update pip for binary wheel caching
     - pip install -U pip virtualenv
 
-    # Install gaia
-    - git clone https://github.com/OpenDataAnalytics/gaia.git
-    - cd gaia
-    - export CPLUS_INCLUDE_PATH=/usr/include/gdal
-    - export C_INCLUDE_PATH=/usr/include/gdal
-    - pip install -e .
-    - pip install -r requirements.txt
-    - cd $HOME/build
-
-    # gaia_minerva has been cloned to Kitware/minerva by travis
-    # girder and minerva need to be cloned and then minerva moved under girder
+    # minerva has been cloned to Kitware/minerva by travis
+    # girder needs to be cloned and then minerva moved under girder
     - cd $HOME/build
     # remove existing girder dir, it remains from caching operations
     - rm -rf girder
     - git clone https://github.com/girder/girder.git
     - cd girder
     - git checkout `cat $TRAVIS_BUILD_DIR/.girder-version`
+    - cd $HOME/build
+    - mv mbertrandtest/minerva girder/plugins
+    - cp girder/plugins/minerva/server/conf/minerva.dist.cfg girder/plugins/minerva/server/conf/minerva.local.cfg
+
+    - cd girder
+    # copy the placeholder bsve credentials, needed even though we mock bsve api calls
+    - cp plugins/minerva/server/jobs/bsve.json.in plugins/minerva/server/jobs/bsve.json
     - cd plugins
     - git clone https://github.com/Kitware/minerva.git
 
     - cd $HOME/build/girder
     # copy the placeholder bsve credentials, needed even though we mock bsve api calls
     - cp plugins/minerva/server/jobs/bsve.json.in plugins/minerva/server/jobs/bsve.json
-    - cp plugins/minerva/server/conf/minerva.dist.cfg plugins/minerva/server/conf/minerva.local.cfg
+    - cp plugins/minerva/server/conf/minerva.dist.cfg plugins/minerva/server/conf/minerva.local.cfg    
 
     # Show the memory state; this lets us more quickly determine when the
     # travis environment is bad
@@ -87,7 +79,7 @@ install:
     - mkdir _build
     - export GIRDER_SOURCE_DIR="$PWD"
     - export GIRDER_BUILD_DIR="$PWD/_build"
-    - pip install -r "${GIRDER_SOURCE_DIR}/plugins/minerva/cmake/travis-pip-freeze.txt" -U
+    #- pip install -r "${GIRDER_SOURCE_DIR}/plugins/minerva/cmake/travis-pip-freeze.txt" -U
 
     - cd /home/travis/build/girder
     # handle caching of npm modules
@@ -96,17 +88,9 @@ install:
     - npm prune
     # build and install girder
     - npm install
-    # install gaia_minerva
-    - cd $HOME/build
-    - mv mbertrandtest/gaia_minerva girder/plugins
-    - cp girder/plugins/minerva/server/conf/minerva.dist.cfg girder/plugins/minerva/server/conf/minerva.local.cfg    
-    - cd /home/travis/build/girder
-        # copy the minerva jobs
-    - cp -r plugins/gaia_minerva/analyses/gaia plugins/minerva/analyses/.
-    - npm install
     # replace girder's ctest config with minerva's
-    - cp "$GIRDER_SOURCE_DIR/plugins/gaia_minerva/cmake/CTestConfig.cmake" .
+    - cp "$GIRDER_SOURCE_DIR/plugins/minerva/cmake/CTestConfig.cmake" .
 
 script:
-    - JASMINE_TIMEOUT=15000 PYTHONPATH="$PYTHONPATH:$GIRDER_SOURCE_DIR/plugins/gaia_minerva" ctest -S "$GIRDER_SOURCE_DIR/plugins/gaia_minerva/cmake/travis_continuous.cmake" -VV || true
+    - JASMINE_TIMEOUT=15000 PYTHONPATH="$PYTHONPATH:$GIRDER_SOURCE_DIR/plugins/minerva" ctest -S "$GIRDER_SOURCE_DIR/plugins/minerva/cmake/travis_continuous.cmake" -VV || true
     - if [ -f _build/test_failed ] ; then false ; fi
