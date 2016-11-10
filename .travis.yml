@@ -51,7 +51,7 @@ before_install:
     - git clone https://github.com/girder/girder.git
     - mv mbertrandtest/gaia_minerva girder/plugins  
     - cd girder
-    - git checkout `cat $TRAVIS_BUILD_DIR/.girder-version`
+    - git checkout `cat plugins/gaia_minerva/.girder-version`
     - cd plugins
     - git clone https://github.com/Kitware/minerva.git
     - pip install -r minerva/requirements.txt
