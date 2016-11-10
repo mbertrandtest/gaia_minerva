@@ -51,14 +51,20 @@ before_install:
     - git clone https://github.com/girder/girder.git
     - cd girder
     - git checkout `cat $TRAVIS_BUILD_DIR/.girder-version`
+    - mv mbertrandtest/gaia_minerva girder/plugins  
     - cd plugins
     - git clone https://github.com/Kitware/minerva.git
+    - pip install -r minerva/requirements.txt
+    - pip install -e minerva/.
+    - pip install -r gaia_minerva/requirements.txt
+    - pip install -e gaia_minerva/.
 
     - cd $HOME/build/girder
     # copy the placeholder bsve credentials, needed even though we mock bsve api calls
     - cp plugins/minerva/server/jobs/bsve.json.in plugins/minerva/server/jobs/bsve.json
     - cp plugins/minerva/server/conf/minerva.dist.cfg plugins/minerva/server/conf/minerva.local.cfg
-
+    - cp -r plugins/gaia_minerva/analyses/gaia plugins/minerva/analyses/.
+    
     # Show the memory state; this lets us more quickly determine when the
     # travis environment is bad
     - vmstat
@@ -94,15 +100,6 @@ install:
     - mkdir -p $HOME/.cache/node_modules || true
     - ln -sf $HOME/.cache/node_modules .
     - npm prune
-    # build and install girder
-    - npm install
-    # install gaia_minerva
-    - cd $HOME/build
-    - mv mbertrandtest/gaia_minerva girder/plugins
-    - cp girder/plugins/minerva/server/conf/minerva.dist.cfg girder/plugins/minerva/server/conf/minerva.local.cfg    
-    - cd /home/travis/build/girder
-        # copy the minerva jobs
-    - cp -r plugins/gaia_minerva/analyses/gaia plugins/minerva/analyses/.
     - npm install
     # replace girder's ctest config with minerva's
     - cp "$GIRDER_SOURCE_DIR/plugins/gaia_minerva/cmake/CTestConfig.cmake" .
