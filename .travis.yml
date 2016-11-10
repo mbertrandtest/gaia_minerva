@@ -49,9 +49,9 @@ before_install:
     # remove existing girder dir, it remains from caching operations
     - rm -rf girder
     - git clone https://github.com/girder/girder.git
+    - mv mbertrandtest/gaia_minerva girder/plugins  
     - cd girder
     - git checkout `cat $TRAVIS_BUILD_DIR/.girder-version`
-    - mv mbertrandtest/gaia_minerva girder/plugins  
     - cd plugins
     - git clone https://github.com/Kitware/minerva.git
     - pip install -r minerva/requirements.txt
