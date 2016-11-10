@@ -36,13 +36,13 @@ before_install:
     - git clone https://github.com/girder/girder.git
     - cd girder
     - git checkout `cat $TRAVIS_BUILD_DIR/.girder-version`
-    #- cd $HOME/build
-    #- mv mbertrandtest/minerva girder/plugins
-    #- cp girder/plugins/minerva/server/conf/minerva.dist.cfg girder/plugins/minerva/server/conf/minerva.local.cfg
+    - cd $HOME/build
+    - mv mbertrandtest/minerva girder/plugins
+    - cp girder/plugins/minerva/server/conf/minerva.dist.cfg girder/plugins/minerva/server/conf/minerva.local.cfg
 
     - cd girder
     # copy the placeholder bsve credentials, needed even though we mock bsve api calls
-    #- cp plugins/minerva/server/jobs/bsve.json.in plugins/minerva/server/jobs/bsve.json
+    - cp plugins/minerva/server/jobs/bsve.json.in plugins/minerva/server/jobs/bsve.json
 
     # Show the memory state; this lets us more quickly determine when the
     # travis environment is bad
